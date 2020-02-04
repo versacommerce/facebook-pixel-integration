@@ -1,0 +1,64 @@
+<!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+fbq('init', '{{ integration['pixel_id'] }}');
+fbq('track', "PageView");
+{% if template == "customer"%}fbq('track', 'InitiateCheckout');{% endif %}
+{% if template == "payment"%}fbq('track', 'AddPaymentInfo');{% endif %}
+{% if template contains "product" %}
+	fbq('track', 'ViewContent', {
+  content_ids: ['{{ product.code }}'],
+  content_name: '{{ product.title }}',
+  content_type: 'product',
+  value: {% if shop.shopify_compatibility? %}{{ product.price | divided_by: 100.00 }}{% else %}{{ product.price }}{% endif %},
+  currency: '{{ shop.currency }}'
+  });
+{% endif %}
+{% if template contains "cart" %}
+	fbq('track', 'AddToCart', {
+    content_ids: [
+      /* Schleife über die Produkte im Warenkorb */
+      {% for item in cart.items %}
+        {% unless forloop.last %}
+          '{{ item.code }}',
+        {% else %}
+          '{{ item.code }}'
+        {% endunless %}
+      {% endfor %}
+    ],
+		content_type: 'product',
+    /* Zwischensumme ohne Versandkosten */
+    value: '{{ cart.subtotal_price }}',
+    currency: '{{ shop.currency_code }}'
+  	}
+  );
+{% endif %}
+{% if template == "thankyou"%}
+	fbq('track', 'Purchase', {
+     content_ids: [
+      /* Schleife über die Produkte im Warenkorb */
+      {% for item in cart.items %}
+        {% unless forloop.last %}
+          '{{ item.code }}',
+        {% else %}
+          '{{ item.code }}'
+        {% endunless %}
+      {% endfor %}
+    ],
+		content_type: 'product',
+    /* Zwischensumme ohne Versandkosten */
+    value: '{{ cart.subtotal_price }}',
+    currency: '{{ shop.currency_code }}'
+  	}
+  );
+{% endif %}
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id={{ integration['pixel_id'] }}&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
