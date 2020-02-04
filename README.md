@@ -1,5 +1,5 @@
 [<img src="versacommerce.png" width="250px" align="right" alt="VersaCommerce.de">](https://www.versacommerce.de/?utm_source=github)
-[<img src="facebook.png" width="90px" align="right" alt="facebook.com/ads/manger/pixel/facebook_pixel">](https://www.facebook.com/ads/manager/pixel/facebook_pixel/?utm_source=www.versacommerce.de)
+[<img src="facebook.png" width="80px" align="right" alt="facebook.com/ads/manger/pixel/facebook_pixel">](https://www.facebook.com/ads/manager/pixel/facebook_pixel/?utm_source=www.versacommerce.de)
 
 [VersaCommerce] [integration] [javascript] [FacebookPixel]
 
